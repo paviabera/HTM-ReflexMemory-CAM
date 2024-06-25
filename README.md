@@ -9,7 +9,7 @@ HTM - nupic- reflex
 -	make it run error-free – Jen/pavia
 -	make sure it gives proper outputs - Jen
 -	try to edit the sequence/temporal memory code – pavia
--	~~ create a git – pavia ~~
+-	~~create a git – pavia~~
 -	kalman filter - pavia
   
 ##	Implement the reflex memory with HTM core – 

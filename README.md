@@ -11,7 +11,9 @@ HTM - nupic- reflex
 -	try to edit the sequence/temporal memory code – pavia
 -	create a git – pavia
 -	kalman filter - pavia
+  
 #	Implement the reflex memory with HTM core – 
+
 #	Run the ECG dataset with HTM core code – 
 -	Get normal baseline data
 -	Label datasets for different anomalies

@@ -4,11 +4,11 @@ HTM - nupic- reflex
 
 
 ## Project Proposal
-##	Check if we can modify the sequence/temporal memory/ nupic core with their datasets – June 26/27th
--	implement in pycharm/vs code – jen/pavia
--	make it run error-free – Jen/pavia
+##	~~Check if we can modify the sequence/temporal memory/ nupic core with their datasets~~ – June 26/27th --- (does not seem like it, its so object being used - pavia)
+-	~~implement in pycharm/vs code~~ – jen/pavia
+-	~~make it run error-free~~ – Jen/pavia
 -	make sure it gives proper outputs - Jen
--	try to edit the sequence/temporal memory code – pavia
+-	~~try to edit the sequence/temporal memory code~~ – pavia
 -	~~create a git – pavia~~
 -	kalman filter - pavia
   

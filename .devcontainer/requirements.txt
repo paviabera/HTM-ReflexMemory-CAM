@@ -1,2 +1,15 @@
 jupyter
 matplotlib
+pandas
+tdqm
+
+setuptools>=34.4.0
+pip>=22.3.1
+wheel>=0.38.4
+cmake>=3.14
+numpy==1.23
+pytest>=4.6.5
+hexy>=1.4.4
+mock>=3.3
+prettytable>=3.5.0
+requests

@@ -6,7 +6,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt update && apt upgrade -y \
     && apt install -y --no-install-recommends software-properties-common \
-    build-essential curl git libffi-dev libsqlite3-dev \
+    build-essential curl git libffi-dev libsqlite3-dev libbz2-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/

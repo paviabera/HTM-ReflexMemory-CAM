@@ -23,3 +23,15 @@ RUN wget "https://www.python.org/ftp/python/3.11.9/Python-3.11.9.tgz" \
     && wget https://bootstrap.pypa.io/pip/get-pip.py \
     && python3.11 get-pip.py \
     && rm -rfv get-pip.py Python-3.11.9.tgz Python-3.11.9
+
+RUN git clone "https://github.com/htm-community/htm.core" \
+    && python3.11 -m ensurepip --upgrade \
+    && python3.11 -m pip install setuptools packaging \
+    && python3.11 -m pip install --no-cache-dir -r htm.core/requirements.txt \
+    && cd htm.core \
+    && python3.11 setup.py install \
+    && rm -rfv /usr/src/htm.core
+
+COPY requirements.txt ./
+
+RUN python3.11 -m pip install --no-cache-dir -r requirements.txt

@@ -19,7 +19,9 @@
 				"ms-toolsai.jupyter-keymap",
 				"ms-toolsai.vscode-jupyter-cell-tags",
 				"ms-toolsai.vscode-jupyter-slideshow",
-				"ms-python.python"
+				"ms-python.python",
+				"ms-vscode.cpptools",
+				"ms-vscode.cpptools-themes"
 			]
 		},
 		// Set *default* container specific settings.json values on container create.

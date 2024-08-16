@@ -1,6 +1,7 @@
-LD_LIBRARY_PATH=/usr/local/lib python3.11 -m ensurepip --upgrade \
-  && LD_LIBRARY_PATH=/usr/local/lib python3.11 -m pip install setuptools packaging \
-  && LD_LIBRARY_PATH=/usr/local/lib python3.11 -m pip install --no-cache-dir -r htm.core/requirements.txt \
+rm -rfv htm.core/build
+PIP_ROOT_USER_ACTION=ignore LD_LIBRARY_PATH=/usr/local/lib python3.11 -m ensurepip --upgrade \
+  && PIP_ROOT_USER_ACTION=ignore LD_LIBRARY_PATH=/usr/local/lib python3.11 -m pip install setuptools packaging \
+  && PIP_ROOT_USER_ACTION=ignore LD_LIBRARY_PATH=/usr/local/lib python3.11 -m pip install -r htm.core/requirements.txt \
   && cd htm.core \
-  && LD_LIBRARY_PATH=/usr/local/lib python3.11 setup.py install \
-  && LD_LIBRARY_PATH=/usr/local/lib python3.11 -m pip install --no-cache-dir -r ../.devcontainer/requirements.txt
+  && PIP_ROOT_USER_ACTION=ignore LD_LIBRARY_PATH=/usr/local/lib python3.11 setup.py install \
+  && PIP_ROOT_USER_ACTION=ignore LD_LIBRARY_PATH=/usr/local/lib python3.11 -m pip install -r ../.devcontainer/requirements.txt

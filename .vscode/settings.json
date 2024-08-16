@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./htm.core/build/Release/distr/src"
+    ]
+}

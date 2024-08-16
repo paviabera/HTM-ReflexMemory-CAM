@@ -2,9 +2,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-          "label": "Install HTM Core",
+          "label": "Reinstall htm-core from source",
           "type": "shell",
-          "command": "sudo bash .vscode/install-htm-core.sh",
+          "command": "sudo bash .vscode/build-htm-core.sh",
         }
     ]
   }

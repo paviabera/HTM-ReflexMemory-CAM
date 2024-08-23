@@ -1,6 +1,5 @@
 # [Choice] Debian version (use bullseye on local arm64/Apple Silicon): bullseye, buster
-ARG VARIANT=bookworm
-FROM mcr.microsoft.com/vscode/devcontainers/base:${VARIANT}
+FROM mcr.microsoft.com/vscode/devcontainers/base:bookworm
 
 ARG DEBIAN_FRONTEND=noninteractive
 

@@ -90,8 +90,8 @@ def run_algorithm(dataset):
         maxSynapsesPerSegment = config['tm']['maxSynapsesPerSegment']
     )
 
-    rm = ReflexiveMemory()
-    attention = Attention(rm, tm, [])
+    rm = ReflexiveMemory(sp.getColumnDimensions())
+    # attention = Attention(rm, tm, [])
 
     enc_info = Metrics( [encodingWidth], 999999999)
     sp_info = Metrics( sp.getColumnDimensions(), 999999999 )
@@ -103,6 +103,7 @@ def run_algorithm(dataset):
     anomalyProb = []
     AnomalyMean = 0
     AnomalyStd = 0
+    anomalyRM = []
 
     for count, record in enumerate(records):
 
@@ -122,28 +123,49 @@ def run_algorithm(dataset):
             enc_info.addData( encoding )
             
             activeColumns = SDR( sp.getColumnDimensions() )
+            predictiveColumns = SDR( sp.getColumnDimensions() )
 
-            if count < config['sp']['learnRows']:
+            if count < config['learnRows']:
                 sp.compute(encoding, True, activeColumns)
-            else: 
-                sp.compute(encoding, config['sp']['learn'], activeColumns)
-            sp_info.addData( activeColumns )
+                # sp.compute(encoding, config['sp']['learn'], activeColumns)
+                sp_info.addData( activeColumns )
 
-            rm.add(copy.deepcopy(activeColumns.sparse))
+                tm.compute(activeColumns, learn=True)
+                tm_info.addData( tm.getActiveCells().flatten() )
+            else: 
+
+                sp.compute(encoding, config['sp']['learn'], activeColumns)
+                sp_info.addData( activeColumns )
+
+
+                tm.activateDendrites(True)
+                predictiveColumns.sparse = list(set(sorted(list(np.where(tm.getPredictiveCells().dense == 1)[0]))))
+
+                pred_correct, pred_anomaly = rm.learn(activeColumns, predictiveColumns)
+                anomalyRM.append( pred_anomaly )
+                rm.add(activeColumns)
+                tm.compute(activeColumns, learn=config['tm']['learn'])
+                tm_info.addData( tm.getActiveCells().flatten() )
+            # tm.activateDendrites(True)
+            # predictiveColumns.sparse = list(set(sorted(list(np.where(tm.getPredictiveCells().dense == 1)[0]))))
+
+           
+
+            # rm.add(copy.deepcopy(activeColumns.sparse))
 
             # tm.compute(activeColumns, learn=config['tm']['learn'])
             # tm_info.addData( tm.getActiveCells().flatten() )
 
             # Predict the next input using the attention module
-            if count < len(records) - 1:
-                next_record = records[count + 1]
-                next_dateString = parse_date(next_record[0])
-                next_consumption = float(next_record[1])
-                next_dateBits = dateEncoder.encode(next_dateString)
-                next_consumptionBits = scalarEncoder.encode(next_consumption)
-                next_encoding = SDR(next_consumptionBits)       
+            # if count < len(records) - 1:
+            #     next_record = records[count + 1]
+            #     next_dateString = parse_date(next_record[0])
+            #     next_consumption = float(next_record[1])
+            #     next_dateBits = dateEncoder.encode(next_dateString)
+            #     next_consumptionBits = scalarEncoder.encode(next_consumption)
+            #     next_encoding = SDR(next_consumptionBits)       
                 
-                attention.process(activeColumns.sparse, next_encoding.sparse, count, config['sp']['learnRows'], config['tm']['learn'])
+            #     attention.process(activeColumns.sparse, next_encoding.sparse, count, config['sp']['learnRows'], config['tm']['learn'])
             
             anomaly.append( tm.anomaly )
             anomalyProb.append( anomaly_history.compute(tm.anomaly) )
@@ -152,5 +174,5 @@ def run_algorithm(dataset):
             print(f"Error parsing date at record {count}: {e}")
     AnomalyMean = np.mean(anomaly)
     AnomalyStd = np.std(AnomalyStd)
-    
+    print(AnomalyMean,AnomalyStd)
     return AnomalyMean, AnomalyStd

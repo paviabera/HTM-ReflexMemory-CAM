@@ -34,5 +34,6 @@ config = {
         'maxSynapsesPerSegment': 64,
         'learn': True
     },
-    'anomaly': {'period': 1000}
+    'anomaly': {'period': 1000},
+    'learnRows': 100
     }

@@ -3,3 +3,6 @@ pandas
 tdqm
 ipykernel
 numpy==1.23
+nbformat
+openpyxl
+nbconvert

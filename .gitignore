@@ -1,3 +1,5 @@
 examples
 datasets/others
 htm.core/build
+.DS_Store
+notebooks/__pycache__/

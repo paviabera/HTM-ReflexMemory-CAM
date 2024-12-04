@@ -6,3 +6,6 @@ numpy==1.23
 nbformat
 openpyxl
 nbconvert
+scikit-learn
+scikit-learn-extra
+seaborn

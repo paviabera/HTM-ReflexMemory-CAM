@@ -33,3 +33,5 @@ Follow these steps to set up H-AHTM on your local machine:
    ```bash
    git clone https://github.com/paviabera/hahtm.git
    cd hahtm
+2. Run the Docker build in the File
+

@@ -35,3 +35,14 @@ Follow these steps to set up H-AHTM on your local machine:
    cd hahtm
 2. Run the Docker build in the File
 
+## If you use this code in your research, please cite our paper:
+
+Enhancing Biologically Inspired Hierarchical Temporal Memory with Hardware-Accelerated Reflex Memory
+Pavia Berab, Sabrina Hassan Moon, Jennifer Adorno, Dayane Alfenas Reis, Sanjukta Bhanja
+Preprint submitted to Elsevier, April 1, 2025.
+
+## License
+
+This project is licensed under the [Apache License 2.0](LICENSE). You are free to use, modify, and distribute this code as long as you comply with the license terms, including providing proper attribution and not misrepresenting the source of the code.
+
+

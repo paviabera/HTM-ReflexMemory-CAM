@@ -2,10 +2,9 @@ matplotlib
 pandas
 tdqm
 ipykernel
-numpy==1.23
+notebook
 nbformat
 openpyxl
 nbconvert
 scikit-learn
-scikit-learn-extra
 seaborn

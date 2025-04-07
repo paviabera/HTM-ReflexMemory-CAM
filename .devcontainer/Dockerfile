@@ -25,12 +25,18 @@ RUN wget "https://www.python.org/ftp/python/3.11.9/Python-3.11.9.tgz" \
     && update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.11 1
 
 RUN git clone "https://github.com/htm-community/htm.core" \
+    && cd htm.core \
+    && git reset --hard 235fe063cfb4a9c59a9a5eb1fd8dd0d2d618351b \
+    && sed -i '7d' requirements.txt \
+    && sed -i '5d' requirements.txt \
+    && echo numpy >> requirements.txt \
+    && echo cmake==3.31.6 >> requirements.txt \
     && python3.11 -m ensurepip --upgrade \
     && python3.11 -m pip install setuptools packaging \
-    && python3.11 -m pip install -r htm.core/requirements.txt \
-    && cd htm.core \
+    && python3.11 -m pip install -r requirements.txt \
     && python3.11 setup.py install \
-    && rm -rfv /usr/src/htm.core
+    && cd /usr/src/ \
+    && rm -rfv htm.core
 
 COPY requirements.txt ./
 

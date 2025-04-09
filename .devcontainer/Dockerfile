@@ -21,7 +21,7 @@ RUN wget "https://www.python.org/ftp/python/3.11.9/Python-3.11.9.tgz" \
     && cd /usr/src/ \
     && wget https://bootstrap.pypa.io/pip/get-pip.py \
     && python3.11 get-pip.py \
-    && rm -rfv get-pip.py Python-3.11.9.tgz Python-3.11.9\
+    && rm -rfv get-pip.py Python-3.11.9.tgz Python-3.11.9 \
     && update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.11 1
 
 RUN git clone "https://github.com/htm-community/htm.core" \

@@ -12,17 +12,17 @@ WORKDIR /usr/src/
 
 ENV LD_LIBRARY_PATH=/usr/local/lib
 
-RUN wget "https://www.python.org/ftp/python/3.11.9/Python-3.11.9.tgz" \
-    && tar xzvf Python-3.11.9.tgz \
-    && cd Python-3.11.9 \
+RUN wget "https://www.python.org/ftp/python/3.13.3/Python-3.13.3.tgz" \
+    && tar xzvf Python-3.13.3.tgz \
+    && cd Python-3.13.3 \
     && ./configure --enable-shared --enable-loadable-sqlite-extensions --enable-optimizations \
     && make -j4 \
     && make install \
     && cd /usr/src/ \
     && wget https://bootstrap.pypa.io/pip/get-pip.py \
-    && python3.11 get-pip.py \
-    && rm -rfv get-pip.py Python-3.11.9.tgz Python-3.11.9 \
-    && update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.11 1
+    && python3.13 get-pip.py \
+    && rm -rfv get-pip.py Python-3.13.3.tgz Python-3.13.3 \
+    && update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.13 1
 
 RUN git clone "https://github.com/htm-community/htm.core" \
     && cd htm.core \
@@ -31,13 +31,13 @@ RUN git clone "https://github.com/htm-community/htm.core" \
     && sed -i '5d' requirements.txt \
     && echo numpy >> requirements.txt \
     && echo cmake==3.31.6 >> requirements.txt \
-    && python3.11 -m ensurepip --upgrade \
-    && python3.11 -m pip install setuptools packaging \
-    && python3.11 -m pip install -r requirements.txt \
-    && python3.11 setup.py install \
+    && python3.13 -m ensurepip --upgrade \
+    && python3.13 -m pip install setuptools packaging \
+    && python3.13 -m pip install -r requirements.txt \
+    && python3.13 setup.py install \
     && cd /usr/src/ \
     && rm -rfv htm.core
 
 COPY requirements.txt ./
 
-RUN python3.11 -m pip install -r requirements.txt
+RUN python3.13 -m pip install -r requirements.txt

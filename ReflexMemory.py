@@ -1,59 +1,66 @@
-from htm.bindings.sdr import SDR, Metrics
-import numpy as np
+from htm.bindings.sdr import SDR
+from datetime import datetime
 
 class ReflexiveMemory:
-  def __init__(self,dimensions):
-    self.previous_sdr = None
+  def __init__(self, reflexSize, dimensions_dense, dimensions_sparse_sp):
+    self.acKey0 = None
     self.pairs = {}
-    self.dimensions = dimensions
+    self.tableSize  = reflexSize
+    self.dimensions_dense = dimensions_dense
+    self.dimensions_sparse_sp = dimensions_sparse_sp
 
-  def add(self, sdr):
-    # pair_count = 0
-    current_sdr = '-'.join(map(str, sdr.sparse))
-    if(self.previous_sdr != None):
-      values = self.pairs.get(self.previous_sdr, {})
-      pair_count = values.get(current_sdr, 0)
-      pair_count = pair_count + 1
-      if self.pairs.get(self.previous_sdr, None) is None:
-        self.pairs[self.previous_sdr] = { current_sdr: pair_count }
+  def add(self, denseColumns):
+    acKey1 = '-'.join(map(str, denseColumns.sparse))
+    if(self.acKey0 != None):
+
+      sequence = self.pairs.get(self.acKey0, {})
+      sequence_data = sequence.get(acKey1, {
+         "count": 0,
+         "time": datetime.now()
+      })
+      if sequence_data["count"] < 256:
+        sequence_data["count"] = sequence_data["count"] + 1
+      sequence_data["time"] = datetime.now()
+
+      if self.pairs.get(self.acKey0, None) is None:
+        self.pairs[self.acKey0] = { acKey1: sequence_data }
       else:
-        self.pairs[self.previous_sdr][current_sdr] = pair_count
-    self.previous_sdr = current_sdr
-    print("Pair count",pair_count)
+        self.pairs[self.acKey0][acKey1] = sequence_data
+        
+      table_entries = 0
+      oldKey1 = None
+      oldKey2 = None
+      oldTime = datetime.now()
+      for key1, value1 in self.pairs.items():
+        table_entries = table_entries + len(value1.items())
+        for key2, value2 in value1.items():
+          if value2['time'] < oldTime:
+            oldKey1 = key1
+            oldKey2 = key2
+            oldTime = value2['time']
+      if table_entries > self.tableSize:
+        del self.pairs[oldKey1][oldKey2]
+        if len(self.pairs[oldKey1].items()) == 0:
+          del self.pairs[oldKey1]
 
-  def predict(self, sdr):
-    search_sdr = '-'.join(map(str, sdr.sparse))
-    values = self.pairs.get(search_sdr, {})
-    return_value = 0
-    return_key = None
-    for key, value in values.items():
-      if value > return_value:
-        return_value = value
-        return_key = key
-    if return_key is not None:
-      return_sdr = SDR( self.dimensions )
-      return_sdr.sparse = list(map(int, return_key.split('-')))
-      return_key = return_sdr
-    return return_value, return_key
-  
- # Control Unit
-  def learn(self, sdr, SMactiveColumns):
-    pred_correct = False
-    pred_anomaly = None
-    if self.previous_sdr is not None:
-        prev_activeColumns = SDR( self.dimensions )
-        prev_activeColumns.sparse = list(map(int, self.previous_sdr.split('-')))
+    self.acKey0 = acKey1
 
-        pred_value, pred_key = self.predict(prev_activeColumns)
-        if pred_key is not None:
-            if pred_key.flatten() == sdr.flatten():
-                pred_correct = True
-                pred_anomaly = 0
-            else:
-                key1 = self.previous_sdr
-                key2 = '-'.join(map(str, pred_key.sparse))
-                self.pairs[key1][key2] = pred_value - 1
-                
-                pred_anomaly = 1 - np.count_nonzero((pred_key.dense & sdr.dense)) / np.count_nonzero(sdr.dense)
-    # print("pred_anomaly",pred_anomaly)
-    return pred_correct, pred_anomaly
+  def predict(self, denseColumns):
+    return_count = 0
+    return_sdr = None
+
+    acKey = '-'.join(map(str, denseColumns.sparse))
+    sequences = self.pairs.get(acKey, {})
+    for sequence_key, sequence_data in sequences.items():
+      if sequence_data["count"] > return_count:
+        return_count = sequence_data["count"]
+        return_sdr = sequence_key
+
+    if return_sdr is not None:
+      tmp_sdr = SDR( self.dimensions_dense )
+      tmp_sdr.sparse = list(map(int, return_sdr.split('-')))
+      return_sdr = tmp_sdr
+    else:
+      return_count = None
+
+    return return_count, return_sdr

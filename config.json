@@ -1,0 +1,59 @@
+{
+    "inputPath": "datasets/numenta",
+    "inputSources": [
+        "monthly_sp500_pca.csv",
+        "weekly_dow_jones.csv",
+        "weekly_nasdaq.csv",
+        "weekly_sp500.csv",
+        "monthly_vix_close.csv",
+        "monthly_vix_high.csv",
+        "monthly_vix_low.csv",
+        "monthly_vix_open.csv",
+        "daily_natural_gas.csv",
+        "daily_oil_prices.csv",
+        "value1_vix_close.csv",
+        "value1_vix_high.csv",
+        "value1_vix_low.csv",
+        "value1_vix_open.csv",
+        "monthly_gold_prices.csv"
+     ],
+    "enc": {
+        "value" :
+            {"resolution": 0.88, "size": 700, "sparsity": 0.02},
+        "time": 
+            {"timeOfDay": [30, 1], "weekend": 21}
+    },
+    "sp": {
+        "inputDimensions": null,
+        "columnDimensions": [1638],
+        "potentialPct": 0.85,
+        "potentialRadius": null,
+        "globalInhibition": true,
+        "localAreaDensity": 0.04395604395604396,
+        "synPermInactiveDec": 0.006,
+        "synPermActiveInc": 0.04,
+        "synPermConnected": 0.13999999999999999,
+        "boostStrength": 3.0,
+        "wrapAround": true,
+        "seed": 1,
+        "learn": false
+    },
+    "tm": {
+        "cellsPerColumn": 13,
+        "activationThreshold": 17,
+        "initialPermanence": 0.21,
+        "minThreshold": 10,
+        "maxNewSynapseCount": 32,
+        "permanenceIncrement": 0.1,
+        "permanenceDecrement": 0.1,
+        "predictedSegmentDecrement": 0.0,
+        "maxSegmentsPerCell": 128,
+        "maxSynapsesPerSegment": 64,
+        "learn": true
+    },
+    "anomaly": {"period": 1000},
+    "learnRows": 100,
+    "reflexSize": 2048,
+    "accuracyThreshold": 0.5,
+    "controlThreshold": 4
+}
